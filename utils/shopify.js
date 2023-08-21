@@ -95,6 +95,7 @@ export async function getCollections() {
                   url
                 }
               }
+              handle
             }
           }
         }
@@ -107,3 +108,29 @@ export async function getCollections() {
   return collections
 }
 
+export async function getProductByHandle(productHandle) {
+  const query = `
+  product(handle: ${productHandle}) {
+    id
+    title
+    description
+    priceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images(first: 5) {
+      edges {
+        node {
+          url
+          altText
+        }
+      }
+    }
+  }`
+
+  const response = await ShopifyData(query)
+  const productByHandle = response ? response : "ProductByHandle Not Fetched"
+  return productByHandle
+}

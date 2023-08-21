@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 // import { getCollections } from "../../utils/shopify";
 
@@ -11,8 +12,8 @@ const Collection = ({ collections }) => {
             <h1 className='fashion_taital'>{collection.title}</h1>
             <div className='fashion_section_2'>
               <div className='row'>
-                {collection?.products.edges.map((product) => (
-                  <div className='col-lg-4 col-sm-4'>
+                {collection?.products.edges.map((product, index) => (
+                  <div className='col-lg-4 col-sm-4' key={index}>
                     <div className='box_main'>
                       <h4 className='shirt_text'>{product.node.title}</h4>
                       <p className='price_text'>
@@ -27,10 +28,15 @@ const Collection = ({ collections }) => {
                       </div>
                       <div className='btn_main'>
                         <div className='buy_bt'>
-                          <a href='#'>Buy Now</a>
-                        </div>
-                        <div className='seemore_bt'>
-                          <a href='#'>See More</a>
+                          <Link
+                            href={{
+                              pathname: `/products/${product.node.handle}`,
+                              query: { productHandle: product.node.handle },
+                            }}
+                            legacyBehavior
+                          >
+                            <a href='/products/'>Buy Now</a>
+                          </Link>
                         </div>
                       </div>
                     </div>
