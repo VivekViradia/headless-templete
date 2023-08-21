@@ -32,7 +32,7 @@ export async function ShopifyData(query) {
 
 }
 
-export default async function getAllProducts() {
+export async function getAllProducts() {
   const query = `{
     products(first: 10) {
       edges {
@@ -72,4 +72,38 @@ export default async function getAllProducts() {
   return products
 }
 
+export async function getCollections() {
+  const query = `{
+    collections(first: 3) {
+      nodes {
+        id
+        title
+        products(first: 3) {
+          edges {
+            node {
+              title
+              priceRange {
+                maxVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              images(first: 1) {
+                nodes {
+                  altText
+                  id
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`
+
+  const response = await ShopifyData(query)
+  const collections = response ? response : "Collection Not Fetched"
+  return collections
+}
 

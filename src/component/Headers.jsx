@@ -2,138 +2,238 @@ import React from "react";
 
 const Headers = () => {
   return (
-    <div className='absolute inset-x-0 top-0 z-50'>
-      <nav
-        className='flex items-center justify-between p-6 lg:px-8'
-        aria-label='Global'
-      >
-        <div className='flex lg:flex-1'>
-          <a href='#' className='-m-1.5 p-1.5'>
-            <span className='sr-only'>Your Company</span>
-            <img className='h-8 w-auto' src='logo.png' alt='' />
-          </a>
-        </div>
-        <div className='flex lg:hidden'>
-          <button
-            type='button'
-            className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700'
-          >
-            <span className='sr-only'>Open main menu</span>
-            <svg
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth='1.5'
-              stroke='currentColor'
-              aria-hidden='true'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
-              />
-            </svg>
-          </button>
-        </div>
-        <div className='hidden lg:flex lg:gap-x-12'>
-          <a
-            href='/products'
-            className='text-sm font-semibold leading-6 text-gray-900'
-          >
-            Product
-          </a>
-          <a href='#' className='text-sm font-semibold leading-6 text-gray-900'>
-            Features
-          </a>
-          <a href='#' className='text-sm font-semibold leading-6 text-gray-900'>
-            Marketplace
-          </a>
-          <a href='#' className='text-sm font-semibold leading-6 text-gray-900'>
-            Company
-          </a>
-        </div>
-        <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
-          <a href='#' className='text-sm font-semibold leading-6 text-gray-900'>
-            Log in <span aria-hidden='true'>&rarr;</span>
-          </a>
-        </div>
-      </nav>
-      {/* <!-- Mobile menu, show/hide based on menu open state. --> */}
-      <div className='lg:hidden' role='dialog' aria-modal='true'>
-        {/* <!-- Background backdrop, show/hide based on slide-over state. --> */}
-        <div className='fixed inset-0 z-50'></div>
-        <div className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
-          <div className='flex items-center justify-between'>
-            <a href='#' className='-m-1.5 p-1.5'>
-              <span className='sr-only'>Your Company</span>
-              <img
-                className='h-8 w-auto'
-                src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-                alt=''
-              />
-            </a>
-            <button
-              type='button'
-              className='-m-2.5 rounded-md p-2.5 text-gray-700'
-            >
-              <span className='sr-only'>Close menu</span>
-              <svg
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </svg>
-            </button>
-          </div>
-          <div className='mt-6 flow-root'>
-            <div className='-my-6 divide-y divide-gray-500/10'>
-              <div className='space-y-2 py-6'>
-                <a
-                  href='#'
-                  className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-                >
-                  Product
-                </a>
-                <a
-                  href='#'
-                  className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-                >
-                  Features
-                </a>
-                <a
-                  href='#'
-                  className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-                >
-                  Marketplace
-                </a>
-                <a
-                  href='#'
-                  className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-                >
-                  Company
-                </a>
-              </div>
-              <div className='py-6'>
-                <a
-                  href='#'
-                  className='-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-                >
-                  Log in
-                </a>
+    <>
+      {/* <!-- banner bg main start --> */}
+      <div className='banner_bg_main'>
+        {/* <!-- header top section start --> */}
+        <div className='container'>
+          <div className='header_section_top'>
+            <div className='row'>
+              <div className='col-sm-12'>
+                <div className='custom_menu'>
+                  <ul>
+                    <li>
+                      <a href='#'>Best Sellers</a>
+                    </li>
+                    <li>
+                      <a href='#'>Gift Ideas</a>
+                    </li>
+                    <li>
+                      <a href='#'>New Releases</a>
+                    </li>
+                    <li>
+                      <a href='#'>Today's Deals</a>
+                    </li>
+                    <li>
+                      <a href='#'>Customer Service</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {/* <!-- header top section start --> */}
+        {/* <!-- logo section start --> */}
+        <div className='logo_section'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-sm-12'>
+                <div className='logo'>
+                  <a href='index.html'>
+                    <img src='images/logo.png' />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- logo section end --> */}
+        {/* <!-- header section start --> */}
+        <div className='header_section'>
+          <div className='container'>
+            <div className='containt_main'>
+              <div id='mySidenav' className='sidenav'>
+                <a
+                  href='javascript:void(0)'
+                  className='closebtn'
+                  onclick='closeNav()'
+                >
+                  &times;
+                </a>
+                <a href='index.html'>Home</a>
+                <a href='fashion.html'>Fashion</a>
+                <a href='electronic.html'>Electronic</a>
+                <a href='jewellery.html'>Jewellery</a>
+              </div>
+              <span className='toggle_icon' onclick='openNav()'>
+                <img src='images/toggle-icon.png' />
+              </span>
+              <div className='dropdown'>
+                <button
+                  className='btn btn-secondary dropdown-toggle'
+                  type='button'
+                  id='dropdownMenuButton'
+                  data-toggle='dropdown'
+                  aria-haspopup='true'
+                  aria-expanded='false'
+                >
+                  All Category
+                </button>
+                <div
+                  className='dropdown-menu'
+                  aria-labelledby='dropdownMenuButton'
+                >
+                  <a className='dropdown-item' href='#'>
+                    Action
+                  </a>
+                  <a className='dropdown-item' href='#'>
+                    Another action
+                  </a>
+                  <a className='dropdown-item' href='#'>
+                    Something else here
+                  </a>
+                </div>
+              </div>
+              <div className='main'>
+                {/* <!-- Another variation with a button --> */}
+                <div className='input-group'>
+                  {/* <input type="text" class="form-control" placeholder="Search this blog" > */}
+                  <div className='input-group-append'>
+                    <button
+                      className='btn btn-secondary'
+                      type='button'
+                      style={{
+                        backgroundColor: "#f26522",
+                        borderColor: "#f26522",
+                      }}
+                    >
+                      <i className='fa fa-search'></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className='header_box'>
+                <div className='lang_box '>
+                  <a
+                    href='#'
+                    title='Language'
+                    className='nav-link'
+                    data-toggle='dropdown'
+                    aria-expanded='true'
+                  >
+                    <img
+                      src='images/flag-uk.png'
+                      alt='flag'
+                      className='mr-2 '
+                      title='United Kingdom'
+                    />{" "}
+                    English{" "}
+                    <i className='fa fa-angle-down ml-2' aria-hidden='true'></i>
+                  </a>
+                  <div className='dropdown-menu '>
+                    <a href='#' className='dropdown-item'>
+                      <img
+                        src='images/flag-france.png'
+                        className='mr-2'
+                        alt='flag'
+                      />
+                      French
+                    </a>
+                  </div>
+                </div>
+                <div className='login_menu'>
+                  <ul>
+                    <li>
+                      <a href='#'>
+                        <i
+                          className='fa fa-shopping-cart'
+                          aria-hidden='true'
+                        ></i>
+                        <span className='padding_10'>Cart</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href='#'>
+                        <i className='fa fa-user' aria-hidden='true'></i>
+                        <span className='padding_10'>Cart</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- header section end --> */}
+        {/* <!-- banner section start --> */}
+        <div className='banner_section layout_padding'>
+          <div className='container'>
+            <div id='my_slider' className='carousel slide' data-ride='carousel'>
+              <div className='carousel-inner'>
+                <div className='carousel-item active'>
+                  <div className='row'>
+                    <div className='col-sm-12'>
+                      <h1 className='banner_taital'>
+                        Get Start <br />
+                        Your favriot shoping
+                      </h1>
+                      <div className='buynow_bt'>
+                        <a href='#'>Buy Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='carousel-item'>
+                  <div className='row'>
+                    <div className='col-sm-12'>
+                      <h1 className='banner_taital'>
+                        Get Start <br />
+                        Your favriot shoping
+                      </h1>
+                      <div className='buynow_bt'>
+                        <a href='#'>Buy Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className='carousel-item'>
+                  <div className='row'>
+                    <div className='col-sm-12'>
+                      <h1 className='banner_taital'>
+                        Get Start <br />
+                        Your favriot shoping
+                      </h1>
+                      <div className='buynow_bt'>
+                        <a href='#'>Buy Now</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                className='carousel-control-prev'
+                href='#my_slider'
+                role='button'
+                data-slide='prev'
+              >
+                <i className='fa fa-angle-left'></i>
+              </a>
+              <a
+                className='carousel-control-next'
+                href='#my_slider'
+                role='button'
+                data-slide='next'
+              >
+                <i className='fa fa-angle-right'></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        {/* <!-- banner section end --> */}
       </div>
-    </div>
+      {/* <!-- banner bg main end --> */}
+    </>
   );
 };
 

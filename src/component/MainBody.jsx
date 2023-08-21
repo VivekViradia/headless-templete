@@ -1,65 +1,126 @@
-import React from "react";
-import Footer from "./Footer";
-import Header from "./Headers";
+"use client";
+import React, { useEffect, useState } from "react";
+import { getCollections } from "../../utils/shopify";
+import Collection from "./Collection";
 
 const MainBody = () => {
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    function fetchData() {
+      try {
+        const { collections } = getCollections();
+        setData(collections);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  console.log("collections____", data);
   return (
-    <div className='bg-white'>
-      {/* <Header /> */}
-      <div className='relative isolate px-6 pt-14 lg:px-8'>
-        <div
-          className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
-          aria-hidden='true'
-        >
-          <div
-            className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]'
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-          ></div>
-        </div>
-        <div className='mx-auto max-w-2xl py-32 sm:py-48 lg:py-56'>
-          <div className='hidden sm:mb-8 sm:flex sm:justify-center'>
-            <div className='relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20'>
-              Unite with the Mountains: Choose Your Board
-            </div>
+    <div>
+      {/* banner bg main start */}
+      {/* banner bg main end */}
+      {/* electronic section start */}
+      <div className='fashion_section'>
+        <div id='main_slider' className='carousel slide' data-ride='carousel'>
+          <div className='carousel-inner'>
+            {/* <div className='carousel-item active'>
+              <div className='container'>
+                <h1 className='fashion_taital'>Man &amp; Woman Fashion</h1>
+                <div className='fashion_section_2'>
+                  <div className='row'>
+                    <div className='col-lg-4 col-sm-4'>
+                      <div className='box_main'>
+                        <h4 className='shirt_text'>Man T -shirt</h4>
+                        <p className='price_text'>
+                          Price <span style={{ color: "#262626" }}>$ 30</span>
+                        </p>
+                        <div className='tshirt_img'>
+                          <img src='images/tshirt-img.png' />
+                        </div>
+                        <div className='btn_main'>
+                          <div className='buy_bt'>
+                            <a href='#'>Buy Now</a>
+                          </div>
+                          <div className='seemore_bt'>
+                            <a href='#'>See More</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-lg-4 col-sm-4'>
+                      <div className='box_main'>
+                        <h4 className='shirt_text'>Man -shirt</h4>
+                        <p className='price_text'>
+                          Price <span style={{ color: "#262626" }}>$ 30</span>
+                        </p>
+                        <div className='tshirt_img'>
+                          <img src='images/dress-shirt-img.png' />
+                        </div>
+                        <div className='btn_main'>
+                          <div className='buy_bt'>
+                            <a href='#'>Buy Now</a>
+                          </div>
+                          <div className='seemore_bt'>
+                            <a href='#'>See More</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-lg-4 col-sm-4'>
+                      <div className='box_main'>
+                        <h4 className='shirt_text'>Woman Scart</h4>
+                        <p className='price_text'>
+                          Price <span style={{ color: "#262626" }}>$ 30</span>
+                        </p>
+                        <div className='tshirt_img'>
+                          <img src='images/women-clothes-img.png' />
+                        </div>
+                        <div className='btn_main'>
+                          <div className='buy_bt'>
+                            <a href='#'>Buy Now</a>
+                          </div>
+                          <div className='seemore_bt'>
+                            <a href='#'>See More</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            {/* {collections &&
+              collections?.node.map((collection, index) =>
+                console.log("Map function", collection, index),
+              )} */}
+            <Collection />
           </div>
-          <div className='text-center'>
-            <h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl'>
-              Chase Winter Thrills with Our Expertly Crafted Boards
-            </h1>
-            <p className='mt-6 text-lg leading-8 text-gray-600'>
-              Welcome to a world of premium snowboards designed to elevate your
-              winter adventures. Discover a range of meticulously crafted boards
-              that bring together performance, style, and innovation for the
-              ultimate riding experience.
-            </p>
-            <div className='mt-10 flex items-center justify-center gap-x-6'>
-              <a
-                href='#'
-                className='text-sm font-semibold leading-6 text-gray-900'
-              >
-                Shop Here <span aria-hidden='true'>→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className='absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]'
-          aria-hidden='true'
-        >
-          <div
-            className='relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]'
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-          ></div>
-          ;
+          <a
+            className='carousel-control-prev'
+            href='#main_slider'
+            role='button'
+            data-slide='prev'
+          >
+            <i className='fa fa-angle-left' />
+          </a>
+          <a
+            className='carousel-control-next'
+            href='#main_slider'
+            role='button'
+            data-slide='next'
+          >
+            <i className='fa fa-angle-right' />
+          </a>
         </div>
       </div>
-      {/* <Footer /> */}
+      {/* electronic section end */}
+      {/* Javascript files*/}
+      {/* sidebar */};
     </div>
   );
 };
