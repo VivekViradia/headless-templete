@@ -55,9 +55,9 @@ const Headers = () => {
             <div className='containt_main'>
               <div id='mySidenav' className='sidenav'>
                 <a
-                  href='javascript:void(0)'
+                  // href='javascript:void(0)'
                   className='closebtn'
-                  onclick='closeNav()'
+                  // onclick='closeNav()'
                 >
                   &times;
                 </a>
@@ -66,7 +66,10 @@ const Headers = () => {
                 <a href='electronic.html'>Electronic</a>
                 <a href='jewellery.html'>Jewellery</a>
               </div>
-              <span className='toggle_icon' onclick='openNav()'>
+              <span
+                className='toggle_icon'
+                // onclick='openNav()'
+              >
                 <img src='images/toggle-icon.png' />
               </span>
               <div className='dropdown'>
