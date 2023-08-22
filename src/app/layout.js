@@ -51,6 +51,7 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="css/owl.carousel.min.css" />
         <link rel="stylesoeet" href="css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen" />
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
       </head>
 
       <body className={inter.className}>

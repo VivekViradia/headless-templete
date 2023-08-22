@@ -188,8 +188,7 @@ const Product = () => {
             {" "}
             Buy now{" "}
           </a>
-          <a href='#' className='btn btn-primary shadow-0'>
-            {" "}
+          <a className='btn btn-primary shadow-0'>
             <i className='me-1 fa fa-shopping-basket'></i> Add to cart{" "}
           </a>
           <a
