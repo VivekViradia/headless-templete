@@ -1,7 +1,48 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { getProductByHandle } from "../../utils/shopify";
+const Product = () => {
+  const searchParams = useSearchParams();
+  const productHandle = searchParams.get("productHandle");
 
-const Product = ({ product }) => {
-  console.log("PPP", product);
+  const [data, setData] = useState();
+  const [quantity, setQuantity] = useState(1);
+
+  const fetchData = async (productHandle) => {
+    const { product } = await getProductByHandle(productHandle);
+    setData(product);
+  };
+
+  useEffect(() => {
+    setImageUrl(data?.images.edges[0].node.url);
+  }, [data]);
+
+  useEffect(() => {
+    fetchData(productHandle).catch(console.error);
+  }, []);
+
+  console.log("productByHandle", data);
+  const [imageUrl, setImageUrl] = useState();
+
+  const handleProductVariantImage = (Url) => {
+    console.log("Clicked", Url);
+    setImageUrl(Url);
+  };
+
+  const handleQuantityPlus = () => {
+    if (quantity <= 5) {
+      setQuantity(quantity + 1);
+    }
+    console.log("quantity", quantity);
+  };
+  const handleQuantityMinus = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+
+    console.log("quantity", quantity);
+  };
   return (
     <div className='row gx-5'>
       <aside className='col-lg-6'>
