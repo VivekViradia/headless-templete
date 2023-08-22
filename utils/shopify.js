@@ -19,7 +19,9 @@ export async function ShopifyData(query) {
     }
 
     const { data } = await response.json();
+    // const data_1 = await response.json();
     console.log("Shopify response data", data)
+    // console.log("Shopify response data_1", data_1)
 
     if (!data) {
       throw new Error('No data received from Shopify API');
@@ -34,7 +36,7 @@ export async function ShopifyData(query) {
 
 export async function getAllProducts() {
   const query = `{
-    products(first: 10) {
+    productByHandle(first: 10) {
       edges {
         node {
           id
@@ -109,11 +111,13 @@ export async function getCollections() {
 }
 
 export async function getProductByHandle(productHandle) {
-  const query = `
-  product(handle: ${productHandle}) {
+  // console.log()
+  const query = `{
+  product(handle: "${productHandle}") {
     id
     title
     description
+    productType
     priceRange {
       maxVariantPrice {
         amount
@@ -128,9 +132,15 @@ export async function getProductByHandle(productHandle) {
         }
       }
     }
-  }`
+    variants(first: 10) {
+      nodes {
+        title
+      }
+    }
+  }
+}`
 
   const response = await ShopifyData(query)
-  const productByHandle = response ? response : "ProductByHandle Not Fetched"
-  return productByHandle
+  const product = response ? response : "ProductByHandle Not Fetched"
+  return product
 }

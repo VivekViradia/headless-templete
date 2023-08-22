@@ -6,17 +6,47 @@ import { getProductByHandle } from "../../../../utils/shopify";
 const ProductPage = () => {
   const searchParams = useSearchParams();
   const productHandle = searchParams.get("productHandle");
-  console.log("productHandle", productHandle);
+  // console.log("productHandle", productHandle);
+
   const [data, setData] = useState();
+  const [quantity, setQuantity] = useState(1);
+
   const fetchData = async (productHandle) => {
-    const { productByHandle } = await getProductByHandle(productHandle);
-    setData(productByHandle);
+    // console.log("Inside fetch function", productHandle);
+    const { product } = await getProductByHandle(productHandle);
+    setData(product);
+    // setImageUrl(product?.images.edges[0].node.url);
   };
+
   useEffect(() => {
-    fetchData().catch(console.error);
+    setImageUrl(data?.images.edges[0].node.url);
+  }, [data]);
+
+  useEffect(() => {
+    fetchData(productHandle).catch(console.error);
   }, []);
 
   console.log("productByHandle", data);
+  const [imageUrl, setImageUrl] = useState();
+
+  const handleProductVariantImage = (Url) => {
+    console.log("Clicked", Url);
+    setImageUrl(Url);
+  };
+
+  const handleQuantityPlus = () => {
+    if (quantity <= 5) {
+      setQuantity(quantity + 1);
+    }
+    console.log("quantity", quantity);
+  };
+  const handleQuantityMinus = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+    // setQuantity(quantity - 1);
+    console.log("quantity", quantity);
+  };
 
   return (
     <>
@@ -30,99 +60,47 @@ const ProductPage = () => {
                   className='rounded-4'
                   target='_blank'
                   data-type='image'
-                  href='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp'
                 >
                   <img
                     style={{
                       maxWidth: "100%",
-                      maxHeight: "100vh",
+                      maxHeight: "100",
                       margin: "auto",
                     }}
                     className='rounded-4 fit'
-                    src='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp'
+                    src={imageUrl}
                   />
                 </a>
               </div>
-              {/* <div className='d-flex justify-content-center mb-3'>
-                <a
-                  data-fslightbox='mygalley'
-                  className='border mx-1 rounded-2'
-                  target='_blank'
-                  data-type='image'
-                  href='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp'
-                >
-                  <img
-                    width='60'
-                    height='60'
-                    className='rounded-2'
-                    src='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp'
-                  />
-                </a>
-                <a
-                  data-fslightbox='mygalley'
-                  className='border mx-1 rounded-2'
-                  target='_blank'
-                  data-type='image'
-                  href='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp'
-                >
-                  <img
-                    width='60'
-                    height='60'
-                    className='rounded-2'
-                    src='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp'
-                  />
-                </a>
-                <a
-                  data-fslightbox='mygalley'
-                  className='border mx-1 rounded-2'
-                  target='_blank'
-                  data-type='image'
-                  href='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp'
-                >
-                  <img
-                    width='60'
-                    height='60'
-                    className='rounded-2'
-                    src='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp'
-                  />
-                </a>
-                <a
-                  data-fslightbox='mygalley'
-                  className='border mx-1 rounded-2'
-                  target='_blank'
-                  data-type='image'
-                  href='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp'
-                >
-                  <img
-                    width='60'
-                    height='60'
-                    className='rounded-2'
-                    src='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp'
-                  />
-                </a>
-                <a
-                  data-fslightbox='mygalley'
-                  className='border mx-1 rounded-2'
-                  target='_blank'
-                  data-type='image'
-                  href='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp'
-                >
-                  <img
-                    width='60'
-                    height='60'
-                    className='rounded-2'
-                    src='https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp'
-                  />
-                </a>
-              </div> */}
+              <div className='d-flex justify-content-center mb-3'>
+                {data &&
+                  data?.images?.edges.map((img, index) => (
+                    <a
+                      key={index}
+                      data-fslightbox='mygalley'
+                      className='border mx-1 rounded-2'
+                      target='_blank'
+                      data-type='image'
+                      onClick={() => handleProductVariantImage(img.node.url)}
+                    >
+                      <img
+                        width='60'
+                        height='60'
+                        className='rounded-2'
+                        src={img.node.url}
+                      />
+                    </a>
+                  ))}
+              </div>
               {/* <!-- thumbs-wrap.// --> */}
               {/* <!-- gallery-wrap .end// --> */}
             </aside>
+
             <main className='col-lg-6'>
               <div className='ps-lg-3'>
                 <h4 className='title text-dark'>
-                  Quality Men's Hoodie for Winter, Men's Fashion <br />
-                  Casual Hoodie
+                  {data?.title} <br />
+                  {data?.productType}
                 </h4>
                 <div className='d-flex flex-row my-3'>
                   <div className='text-warning mb-1 me-2'>
@@ -141,8 +119,10 @@ const ProductPage = () => {
                 </div>
 
                 <div className='mb-3'>
-                  <span className='h5'>$75.00</span>
-                  <span className='text-muted'>/per box</span>
+                  <span className='h5'>
+                    {data?.priceRange?.maxVariantPrice.currencyCode}
+                    {data?.priceRange?.maxVariantPrice.amount}
+                  </span>
                 </div>
 
                 <p>
@@ -170,14 +150,15 @@ const ProductPage = () => {
 
                 <div className='row mb-4'>
                   <div className='col-md-4 col-6'>
-                    <label className='mb-2'>Size</label>
+                    <label className='mb-2'>Size</label>{" "}
                     <select
                       className='form-select border border-secondary'
                       style={{ height: 35 }}
                     >
-                      <option>Small</option>
-                      <option>Medium</option>
-                      <option>Large</option>
+                      {data &&
+                        data?.variants?.nodes.map((variant, index) => (
+                          <option key={index}>{variant.title}</option>
+                        ))}
                     </select>
                   </div>
                   {/* <!-- col.// --> */}
@@ -189,13 +170,14 @@ const ProductPage = () => {
                         type='button'
                         id='button-addon1'
                         data-mdb-ripple-color='dark'
+                        onClick={() => handleQuantityMinus()}
                       >
                         -
                       </button>
                       <input
-                        type='text'
+                        type='number'
+                        value={quantity}
                         className='form-control text-center border border-secondary'
-                        placeholder='14'
                         aria-label='Example text with button addon'
                         aria-describedby='button-addon1'
                       />
@@ -204,6 +186,7 @@ const ProductPage = () => {
                         type='button'
                         id='button-addon2'
                         data-mdb-ripple-color='dark'
+                        onClick={() => handleQuantityPlus()}
                       >
                         +
                       </button>

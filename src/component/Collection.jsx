@@ -35,7 +35,7 @@ const Collection = ({ collections }) => {
                             }}
                             legacyBehavior
                           >
-                            <a href='/products/'>Buy Now</a>
+                            <a href='/products/'>View</a>
                           </Link>
                         </div>
                       </div>
