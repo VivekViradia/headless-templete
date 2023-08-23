@@ -1,12 +1,23 @@
 "use client";
 import Cart from "@/component/Cart";
-import { useSearchParams } from "next/navigation";
-import React from "react";
+import { useAppContext } from "@/lib/AppContext";
+import React, { useEffect, useState } from "react";
+import { getCartProducts } from "../../../../utils/shopify";
 
 const CartPage = () => {
-  const searchParams = useSearchParams();
-  const cartNumber = searchParams.get("cartNumber");
-  console.log("cartNumber CartPage", cartNumber);
+  const { productCartId, setProductCartId } = useAppContext();
+  const [cartProducts, setCartProducts] = useState();
+
+  const fetchData = async (cartId) => {
+    const { cart } = await getCartProducts(cartId);
+    setCartProducts(cart);
+  };
+
+  useEffect(() => {
+    fetchData(productCartId).catch(console.error);
+  }, [productCartId]);
+
+  console.log("cartProducts", cartProducts);
 
   return (
     <div className='h-100 h-custom' style={{ backgroundColor: "#d2c9ff" }}>
@@ -18,7 +29,12 @@ const CartPage = () => {
               style={{ borderRadius: 15 }}
             >
               <div className='card-body p-0'>
-                <Cart />
+                <Cart
+                  cartId={cartProducts?.id}
+                  checkoutUrl={cartProducts?.checkoutUrl}
+                  cost={cartProducts?.cost.totalAmount}
+                  lines={cartProducts?.lines}
+                />
               </div>
             </div>
           </div>

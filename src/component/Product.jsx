@@ -15,7 +15,7 @@ const Product = () => {
   const [data, setData] = useState();
   const { quantity, setQuantity } = useAppContext();
   const { selectedSizeId, setSelectedSizeId } = useAppContext();
-  const { productCartid, setProductCartId } = useAppContext();
+  const { productCartId, setProductCartId } = useAppContext();
 
   const fetchData = async (productHandle) => {
     const { product } = await getProductByHandle(productHandle);
@@ -35,7 +35,6 @@ const Product = () => {
   const [imageUrl, setImageUrl] = useState();
 
   const handleProductVariantImage = (Url) => {
-    console.log("Clicked", Url);
     setImageUrl(Url);
   };
 
@@ -43,14 +42,11 @@ const Product = () => {
     if (quantity < 5) {
       setQuantity(quantity + 1);
     }
-    console.log("quantity", quantity);
   };
   const handleQuantityMinus = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
-
-    console.log("quantity", quantity);
   };
 
   const handleSizeChange = (event) => {
@@ -64,35 +60,30 @@ const Product = () => {
       merchandiseId: selectedSizeId,
     },
   ];
-  console.log("getLines", getLines);
-  const lineItems = getLines.map((item) => {
-    return `{
-      merchandiseId: "${item.merchandiseId}",
-      quantity:  ${item.quantity}
-    }`;
-  });
-  console.log("lineItems", lineItems);
 
   const handleAddToCart = async () => {
     let cartId = sessionStorage.getItem("cartId");
-    setProductCartId(cartId);
+
     if (cartId) {
       const { cartLinesAdd } = await updateCartMutation(cartId, getLines);
-      console.log("updateCartMutation", cartLinesAdd);
+      // console.log("updateCartMutation", cartLinesAdd);
       cartId = cartLinesAdd?.cart.id;
+      setProductCartId(cartId);
       sessionStorage.setItem("cartId", cartId);
     } else {
       const { cartCreate } = await createCartMutation(quantity, selectedSizeId);
-      console.log("createCartMutation", cartCreate);
+      // console.log("createCartMutation", cartCreate);
       cartId = cartCreate?.cart?.id;
+      setProductCartId(cartId);
       sessionStorage.setItem("cartId", cartId);
     }
     console.log("cartId", cartId);
     const cartNumber = cartId.slice(19);
-    console.log("cartNumber", cartNumber);
     router.push(`/cart?cartNumber=${cartNumber}`);
   };
 
+  console.log("quantity", quantity);
+  console.log("productCartid", productCartId);
   return (
     <div className='row gx-5'>
       <aside className='col-lg-6'>

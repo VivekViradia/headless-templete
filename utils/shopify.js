@@ -29,7 +29,6 @@ export async function ShopifyData(query) {
   } catch (error) {
     throw new Error(`Error fetching from Shopify API: ${error.message}`);
   }
-
 }
 
 export async function getAllProducts() {
@@ -65,9 +64,7 @@ export async function getAllProducts() {
       }`;
 
   const response = await ShopifyData(query);
-  // console.log('response', response)
   const products = response ? response : 'Products Not Fetched';
-  // console.log('products bhu', products)
 
   return products
 }
@@ -145,7 +142,6 @@ export async function getProductByHandle(productHandle) {
 }
 
 export async function createCartMutation(quantity, id) {
-  // console.log('quantity', quantity, 'id', id)
   const gql = String.raw
   const query = gql`
   mutation{
@@ -198,9 +194,11 @@ export async function updateCartMutation(cartId, lines) {
   return checkout;
 }
 
-export async function getCartProducts() {
-  const query = `
-  cart(id: $id) {
+export async function getCartProducts(id) {
+  console.log("ID inside getCartProducts", typeof id, id)
+  const gql = String.raw
+  const query = gql`{
+      cart(id: "${id}") {
     id
     lines(first: 50) {
       edges {
@@ -225,6 +223,7 @@ export async function getCartProducts() {
                 id
                 title
                 handle
+                productType
               }
             }
           }
@@ -238,10 +237,32 @@ export async function getCartProducts() {
       }
     }
     checkoutUrl
+  }
   }`
 
   const response = await ShopifyData(query)
   console.log('response getCartProducts query', response)
+  const data = response ? response : [];
+  return data
+}
+
+export async function removeItemMutation(variables) {
+  console.log("CARTID___", variables)
+  console.log("CARTID_1__", variables.cartId)
+  console.log("CARTID__2_", variables.lineIds)
+  // const 
+  const query = `
+  mutation {
+    cartLinesRemove(cartId:" ${variables.cartId}", lineIds: "${variables.lineIds}") {
+      cart {
+        id
+      }
+    }
+  }
+  `
+
+  const response = await ShopifyData(query)
+  console.log('removeItemMutation', response)
   const data = response ? response : [];
   return data
 }
