@@ -1,13 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { getProductByHandle } from "../../utils/shopify";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  createCartMutation,
+  getProductByHandle,
+  updateCartMutation,
+} from "../../utils/shopify";
+import { useAppContext } from "@/lib/AppContext";
+
 const Product = () => {
   const searchParams = useSearchParams();
   const productHandle = searchParams.get("productHandle");
-
+  const router = useRouter();
   const [data, setData] = useState();
-  const [quantity, setQuantity] = useState(1);
+  const { quantity, setQuantity } = useAppContext();
+  const { selectedSizeId, setSelectedSizeId } = useAppContext();
+  const { productCartid, setProductCartId } = useAppContext();
 
   const fetchData = async (productHandle) => {
     const { product } = await getProductByHandle(productHandle);
@@ -16,6 +24,7 @@ const Product = () => {
 
   useEffect(() => {
     setImageUrl(data?.images.edges[0].node.url);
+    setSelectedSizeId(data?.variants?.nodes[0].id);
   }, [data]);
 
   useEffect(() => {
@@ -31,7 +40,7 @@ const Product = () => {
   };
 
   const handleQuantityPlus = () => {
-    if (quantity <= 5) {
+    if (quantity < 5) {
       setQuantity(quantity + 1);
     }
     console.log("quantity", quantity);
@@ -43,6 +52,47 @@ const Product = () => {
 
     console.log("quantity", quantity);
   };
+
+  const handleSizeChange = (event) => {
+    const selectedId = event.target.value;
+    setSelectedSizeId(selectedId);
+  };
+
+  const getLines = [
+    {
+      quantity: parseInt(quantity),
+      merchandiseId: selectedSizeId,
+    },
+  ];
+  console.log("getLines", getLines);
+  const lineItems = getLines.map((item) => {
+    return `{
+      merchandiseId: "${item.merchandiseId}",
+      quantity:  ${item.quantity}
+    }`;
+  });
+  console.log("lineItems", lineItems);
+
+  const handleAddToCart = async () => {
+    let cartId = sessionStorage.getItem("cartId");
+    setProductCartId(cartId);
+    if (cartId) {
+      const { cartLinesAdd } = await updateCartMutation(cartId, getLines);
+      console.log("updateCartMutation", cartLinesAdd);
+      cartId = cartLinesAdd?.cart.id;
+      sessionStorage.setItem("cartId", cartId);
+    } else {
+      const { cartCreate } = await createCartMutation(quantity, selectedSizeId);
+      console.log("createCartMutation", cartCreate);
+      cartId = cartCreate?.cart?.id;
+      sessionStorage.setItem("cartId", cartId);
+    }
+    console.log("cartId", cartId);
+    const cartNumber = cartId.slice(19);
+    console.log("cartNumber", cartNumber);
+    router.push(`/cart?cartNumber=${cartNumber}`);
+  };
+
   return (
     <div className='row gx-5'>
       <aside className='col-lg-6'>
@@ -145,10 +195,15 @@ const Product = () => {
               <select
                 className='form-select border border-secondary'
                 style={{ height: 35 }}
+                value={selectedSizeId}
+                onChange={handleSizeChange}
               >
+                <option value=''>-- Select Size --</option>
                 {data &&
-                  data?.variants?.nodes.map((variant, index) => (
-                    <option key={index}>{variant.title}</option>
+                  data?.variants?.nodes.map((variant) => (
+                    <option key={variant.id} value={variant.id}>
+                      {variant.title}
+                    </option>
                   ))}
               </select>
             </div>
@@ -188,9 +243,11 @@ const Product = () => {
             {" "}
             Buy now{" "}
           </a>
-          <a className='btn btn-primary shadow-0'>
+
+          <a className='btn btn-primary shadow-0' onClick={handleAddToCart}>
             <i className='me-1 fa fa-shopping-basket'></i> Add to cart{" "}
           </a>
+
           <a
             href='#'
             className='btn btn-light border border-secondary py-2 icon-hover px-3'

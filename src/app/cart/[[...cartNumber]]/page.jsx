@@ -1,7 +1,13 @@
+"use client";
 import Cart from "@/component/Cart";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 const CartPage = () => {
+  const searchParams = useSearchParams();
+  const cartNumber = searchParams.get("cartNumber");
+  console.log("cartNumber CartPage", cartNumber);
+
   return (
     <div className='h-100 h-custom' style={{ backgroundColor: "#d2c9ff" }}>
       <div className='container py-5 h-100'>

@@ -19,9 +19,7 @@ export async function ShopifyData(query) {
     }
 
     const { data } = await response.json();
-    // const data_1 = await response.json();
     console.log("Shopify response data", data)
-    // console.log("Shopify response data_1", data_1)
 
     if (!data) {
       throw new Error('No data received from Shopify API');
@@ -67,9 +65,9 @@ export async function getAllProducts() {
       }`;
 
   const response = await ShopifyData(query);
-  console.log('response', response)
+  // console.log('response', response)
   const products = response ? response : 'Products Not Fetched';
-  console.log('products bhu', products)
+  // console.log('products bhu', products)
 
   return products
 }
@@ -134,6 +132,7 @@ export async function getProductByHandle(productHandle) {
     }
     variants(first: 10) {
       nodes {
+        id
         title
       }
     }
@@ -143,4 +142,106 @@ export async function getProductByHandle(productHandle) {
   const response = await ShopifyData(query)
   const product = response ? response : "ProductByHandle Not Fetched"
   return product
+}
+
+export async function createCartMutation(quantity, id) {
+  // console.log('quantity', quantity, 'id', id)
+  const gql = String.raw
+  const query = gql`
+  mutation{
+    cartCreate(
+      input: {lines: [{quantity: ${quantity}, merchandiseId: "${id}"}]}
+    ) {
+      cart {
+        id
+        createdAt
+        updatedAt
+        checkoutUrl
+      }
+    }
+  }`;
+
+  const response = await ShopifyData(query);
+  // console.log('response', response)
+  const checkout = response
+    ? response
+    : [];
+  // console.log("checkoutCreate shopifyDAta", checkout)
+
+  return checkout;
+}
+
+export async function updateCartMutation(cartId, lines) {
+  const lineItems = lines.map((item) => {
+    return `{
+      merchandiseId: "${item.merchandiseId}",
+      quantity:  ${item.quantity}
+    }`;
+  });
+  // console.log('lineItems', lineItems)
+  // console.log('lineItems cartID', cartId)
+  const query = `
+  mutation {
+    cartLinesAdd(cartId: "${cartId}", lines: [${lineItems}]) {
+      cart {
+        id
+      }
+    }
+  }`;
+
+  const response = await ShopifyData(query);
+  // console.log('response Update query', response)
+  const checkout = response
+    ? response
+    : "updateCartMutation Not Fetched";
+
+  return checkout;
+}
+
+export async function getCartProducts() {
+  const query = `
+  cart(id: $id) {
+    id
+    lines(first: 50) {
+      edges {
+        node {
+          id
+          quantity
+          merchandise {
+            ... on ProductVariant {
+              id
+              title
+              price {
+                amount
+                currencyCode
+              }
+              image {
+                url
+                altText
+                width
+                height
+              }
+              product {
+                id
+                title
+                handle
+              }
+            }
+          }
+        }
+      }
+    }
+    cost {
+      totalAmount {
+        amount
+        currencyCode
+      }
+    }
+    checkoutUrl
+  }`
+
+  const response = await ShopifyData(query)
+  console.log('response getCartProducts query', response)
+  const data = response ? response : [];
+  return data
 }

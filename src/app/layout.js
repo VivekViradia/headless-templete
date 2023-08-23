@@ -3,6 +3,7 @@ import Footer from '@/component/Footer'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Headers from '@/component/Headers'
+import { AppProvider } from '@/lib/AppContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -56,10 +57,11 @@ export default function RootLayout({ children }) {
 
       <body className={inter.className}>
 
-        <Headers />
-        {children}
-        <Footer />
-
+        <AppProvider>
+          <Headers />
+          {children}
+          <Footer />
+        </AppProvider>
       </body>
 
     </html>
